@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ComicCraft - Comic exported</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    .wrap { display: grid; min-height: 100vh; align-content: center; }
+    h1 { font-size: clamp(2.6rem, 9vw, 4rem); margin-bottom: 12px; }
+    p { margin: 0 0 24px; }
+    .again { margin-left: 8px; font-weight: 700; color: var(--ink); }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="panel">
+      <h1>Comic exported!</h1>
+      <p>Your comic PDF has been downloaded{% if pdf_path %} as <strong>{{ pdf_path }}</strong>{% endif %}.
+         Have another story in mind?</p>
+      <a class="btn" href="/">Create another comic</a>
+      {% if pdf_path %}<a class="again" href="/download/{{ pdf_path }}">Download again</a>{% endif %}
+    </section>
+  </main>
+</body>
+</html>

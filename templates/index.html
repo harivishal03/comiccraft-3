@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ComicCraft - Create your comic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    header { margin-bottom: 28px; }
+    h1 { font-size: clamp(3rem, 12vw, 5.5rem); line-height: .95; color: var(--ink);
+         text-shadow: 4px 4px 0 var(--yellow); }
+    .bubble {
+      position: relative; display: inline-block; margin-top: 18px;
+      background: var(--paper); border: 3px solid var(--ink); border-radius: 22px;
+      padding: 8px 18px; font-weight: 700;
+    }
+    .bubble::after {
+      content: ""; position: absolute; left: 28px; bottom: -16px;
+      border: 8px solid transparent; border-top: 10px solid var(--ink);
+    }
+    label { display: block; font-weight: 700; margin: 18px 0 6px; }
+    input, select, textarea {
+      width: 100%; font: inherit; color: var(--ink); background: #fff;
+      border: 3px solid var(--ink); padding: 10px 12px; border-radius: 0;
+    }
+    textarea { min-height: 96px; resize: vertical; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
+    .row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 620px) { .row, .row.three { grid-template-columns: 1fr; } }
+    .actions { margin-top: 28px; }
+    #loading {
+      position: fixed; inset: 0; display: none; place-items: center; text-align: center;
+      background: rgba(23,23,43,.88); color: #fff; padding: 24px; z-index: 10;
+    }
+    #loading.show { display: grid; }
+    #loading h2 { font-size: 3rem; color: var(--yellow); }
+    #loading p { max-width: 30ch; margin: 8px auto 0; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>ComicCraft</h1>
+      <div class="bubble">Give me an idea and I'll draw five panels.</div>
+    </header>
+
+    <form class="panel" action="/generate" method="post" id="comic-form">
+      <label for="prompt" style="margin-top:0">Story idea</label>
+      <textarea id="prompt" name="prompt" required>A brave fox exploring an enchanted forest.</textarea>
+
+      <div class="row">
+        <div>
+          <label for="character_name">Main character</label>
+          <input id="character_name" name="character_name" value="Finn" required>
+        </div>
+        <div>
+          <label for="setting">Setting</label>
+          <select id="setting" name="setting">
+            <option value="forest" selected>Forest</option>
+            <option value="school">School</option>
+            <option value="space">Space</option>
+            <option value="city">City</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="tone">Tone</label>
+          <select id="tone" name="tone">
+            <option value="dramatic" selected>Dramatic</option>
+            <option value="light-hearted">Light-hearted</option>
+            <option value="poetic">Poetic</option>
+            <option value="funny">Funny</option>
+          </select>
+        </div>
+        <div>
+          <label for="style">Art style</label>
+          <select id="style" name="style">
+            <option value="anime">Anime</option>
+            <option value="pixel art">Pixel art</option>
+            <option value="comic book" selected>Comic book</option>
+            <option value="realistic">Realistic</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="submit">Generate comic</button>
+      </div>
+    </form>
+  </main>
+
+  <div id="loading" role="status" aria-live="polite">
+    <div>
+      <h2>Drawing your comic...</h2>
+      <p>Writing the story and painting five panels. This can take a few minutes.</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("comic-form").addEventListener("submit", function () {
+      document.getElementById("loading").classList.add("show");
+    });
+  </script>
+</body>
+</html>

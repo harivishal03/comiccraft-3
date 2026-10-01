@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ComicCraft - Your comic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    h1 { font-size: clamp(2.6rem, 9vw, 4rem); text-shadow: 4px 4px 0 var(--yellow); margin-bottom: 28px; }
+    .panel { margin-bottom: 40px; }
+    .panel h2 { font-size: 2rem; margin-bottom: 14px; }
+    .panel h2 span { color: var(--pink); }
+    .panel img { display: block; width: 100%; max-width: 512px; border: 4px solid var(--ink); background: var(--sky); }
+    .scene { font-style: italic; margin: 14px 0 10px; color: #3b3b5c; }
+    .story { max-width: 62ch; }
+    .story strong { color: var(--blue); }
+    .actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+    .back { font-weight: 700; color: var(--ink); }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Your comic</h1>
+
+    {% for panel in layout %}
+    <article class="panel">
+      <h2><span>{{ panel.panel }}.</span> {{ panel.title }}</h2>
+      <img src="{{ panel.image_url }}" alt="Illustration for panel {{ panel.panel }}: {{ panel.title }}">
+      {% if panel.scene_description %}
+      <p class="scene">{{ panel.scene_description }}</p>
+      {% endif %}
+      <div class="story">{{ panel.text | md }}</div>
+    </article>
+    {% endfor %}
+
+    <div class="actions">
+      <a class="btn" id="download" href="/download/{{ pdf_filename }}">Download comic as PDF</a>
+      <a class="back" href="/">Make a different comic</a>
+    </div>
+  </main>
+
+  <script>
+    // After the download starts, show the confirmation page.
+    document.getElementById("download").addEventListener("click", function () {
+      setTimeout(function () {
+        window.location.href = "/export-success?pdf_path={{ pdf_filename }}";
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
